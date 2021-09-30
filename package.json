@@ -4,7 +4,6 @@
   "author": "Andrei Buciuta",
   "description": "Psych test app",
   "homepage": "./",
-  "main": "./public/electron.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -29,33 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build && mv build docs || move build docs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron:start": "concurrently -k \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electronmon .\"",
-    "electron:package:mac": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron.js",
-    "electron:package:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js",
-    "electron:package:linux": "yarn build && electron-builder -l -c.extraMetadata.main=build/electron.js",
-    "release": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron.js --publish never"
-  },
-  "build": {
-    "appId": "com.electron.myapp",
-    "productName": "My Electron App",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "public"
-    },
-    "mac": {
-      "target": "dmg"
-    },
-    "win": {
-      "target": "nsis",
-      "asar": true
-    },
-    "linux": {
-      "target": "deb"
-    }
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -75,11 +48,6 @@
     "@babel/eslint-parser": "^7.15.7",
     "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
-    "concurrently": "^6.2.2",
-    "cross-env": "^7.0.3",
-    "electron": "^15.0.0",
-    "electron-builder": "^22.11.7",
-    "electronmon": "^2.0.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -88,8 +56,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "2.4.1",
-    "wait-on": "^6.0.0"
+    "prettier": "2.4.1"
   },
   "repository": "https://github.com/buciutaandrei/testApp.git",
   "license": "MIT"

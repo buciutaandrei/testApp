@@ -3,10 +3,11 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-param-reassign */
 import { makeAutoObservable } from "mobx";
-// import { ipcRenderer } from "electron";
 import { getTime } from "date-fns";
 import { readRemoteFile } from "react-papaparse";
 import { shuffle } from "underscore";
+import { accessSync } from "fs";
+import ExcelJS from "exceljs";
 import file from "../../src/tests.csv";
 import occluder from "../../src/Occluder.png";
 import mirrorOccluder from "../../src/Occluder_Mirror.png";
@@ -73,12 +74,17 @@ class Store {
 
   circleShowLetter;
 
+  excelSheet;
+
+  excelWorkbook;
+
   constructor() {
     makeAutoObservable(this, {}, { deep: false });
     readRemoteFile(file, {
       complete: (results) => {
         this.tests = results.data;
         this.setUpTestBlocks();
+        this.loadExcelWorkbook();
       },
     });
   }
@@ -304,8 +310,8 @@ class Store {
       this.lastReactionTime = [testName, this.reactionTime, this.isGotMatch];
       this.lastReactionTimeString = `Test name: ${testName} \n Reaction time: ${this.reactionTime} \n Correct answer: ${this.isGotMatch}`;
       this.reactionTimes.push(this.lastReactionTime);
-      window.addRow.addRow(this.lastReactionTime);
       console.log("All results: ", this.reactionTimes);
+      this.saveToExcel();
     } else {
       console.log("A KEYPRESS WAS ALREADY RECORDED");
     }
@@ -336,6 +342,34 @@ class Store {
       this.setInitialValues();
     }
   }
+
+  loadExcelWorkbook = async () => {
+    this.excelWorkbook = new ExcelJS.Workbook();
+
+    try {
+      accessSync("TestResults.xlsx");
+      this.excelWorkbook = await this.excelWorkbook.xlsx.readFile(
+        "TestResults.xlsx"
+      );
+      this.excelSheet = this.excelWorkbook.getWorksheet("TestResults");
+    } catch (e) {
+      console.log(e);
+      this.excelSheet = this.excelWorkbook.addWorksheet("TestResults");
+      await this.excelWorkbook.xlsx.writeFile("TestResults.xlsx");
+    }
+  };
+
+  saveToExcel = async () => {
+    if (this.excelSheet != null) {
+      console.log("ADD");
+      this.excelSheet.addRow(this.lastReactionTime);
+      try {
+        await this.excelWorkbook.xlsx.writeFile("TestResults.xlsx");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 }
 
 export default Store;
