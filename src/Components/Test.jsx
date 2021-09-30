@@ -8,7 +8,7 @@ const Test = ({ store }) => {
   const handleKeyPress = (event) => {
     if (!store.isStartTest) {
       store.startTest();
-    } else if (event.code === "f" || event.code === "j") {
+    } else if (event.code === "KeyF" || event.code === "KeyJ") {
       store.endTest(event.code);
     } else {
       console.log("OTHER KEY PRESSED", event.code);

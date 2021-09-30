@@ -281,7 +281,7 @@ class Store {
   setKeyPress(pressedKey) {
     console.log("KEY PRESSED");
 
-    if (pressedKey === "j" && this.letterMatchType === "nm") {
+    if (pressedKey === "KeyJ" && this.letterMatchType === "nm") {
       this.isGotMatch = true;
     } else if (
       pressedKey === "f" &&
