@@ -1,0 +1,19 @@
+.mainForm {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    margin: auto;
+    justify-content: center;
+}
+
+.mainForm input {
+    padding: 0.5rem;
+    margin: 1rem;
+}
+
+.mainForm input:last-child {
+    width: 15vw;
+    align-self: flex-end;
+    margin-right: 2.5rem;
+}
